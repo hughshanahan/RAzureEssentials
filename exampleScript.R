@@ -39,10 +39,10 @@ copy.to.storage <- function(workdir,keyfile,sub.dir){
                "containerIO.transferToContainer", keyfile, sub.dir)
   system2(command=my.java.exe,args=my.args)
   #  return if the directory exists or not
-  there <- file.exists(container.name)
+  there <- file.exists(sub.dir)
   if (there){
-    my.dir <- dir(container.name)
-    print(paste("container contents =",container.name,my.dir))
+    my.dir <- dir(sub.dir)
+    print(paste("container contents =",my.dir))
   }
   there
 }
@@ -78,7 +78,6 @@ date()
 my.dir <- dir()
 print(my.dir)
 workdir <- getwd()
-print(workdir)
 
 # load scripts, data from initial script here.
 #load("Gstack.affy.ids.Rdata")
@@ -100,20 +99,21 @@ for (i in 1:length(work.items[,1])) {
 # Try copying data  
   if ( copy.from.storage(workdir,key.filename,as.vector(work.item)) ) {
   	item.dir <- paste(workdir, .Platform$file.sep, work.item, sep="")
-	  print(item.dir)
-	  setwd(item.dir)
+	print(item.dir)
+	setwd(item.dir)
     my.files <- list.files()
     size.of.files <- sum(file.info(my.files)[,"size"])
     print(paste("Size of files in",item.dir,"is",size.of.files))  
 # Save results in new directory
-    setwd(my.dir)
-    results.dir <- paste(work.item,"Results",sep="")
+    setwd(workdir)
+    results.dir <- paste(item.dir,"Results",sep="")
+	print(results.dir)
     dir.create(results.dir)
-    setwd(work.item)
-    save(size.of.files="asizes.Rdata")
-    setwd(my.dir)
+    setwd(results.dir)
+    save(size.of.files,file="sizes.Rdata")
+    setwd(workdir)
 # Now upload output directory (log files are also stored)
-    if ( copy.to.storage(workdir,keyfilename,work.item) ){
+    if ( copy.to.storage(workdir,key.filename,results.dir) ){
       print(paste("Stored data for",work.item,"to mass store"))
     }
 # Note - do not stop execution if there is a failure to store    
@@ -126,6 +126,9 @@ for (i in 1:length(work.items[,1])) {
     unlink(work.item,recursive=TRUE)
     unlink(results.dir,recursive=TRUE)
 
+# Show contents of dir to make sure it's all clean.
+    print("Completed iteration, here are contents")
+	print(dir())
   }
 # Give error message if failure to download data  
   else{
