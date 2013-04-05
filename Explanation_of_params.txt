@@ -1,0 +1,23 @@
+Notes on params.txt file 
+
+doUpload y              
+- This flags whether the application data needs to be uploaded or not. 
+  Normally you set this to y at the start and n from there on in. If you decide to use 
+  different application or data container storage you should also update it.   
+dataKeyFile C:\Users\hugh\rgwdata.key
+- This is the key file for the data container storage, note that this and all the files 
+  have to list the full path. 
+RFileName C:\Users\hugh\exampleScript.R
+- The R script that will be run
+userZipFileName C:\Users\hugh\RExtraFiles.zip
+- A zip file of all the extra files you need to be installed in the working directory to run your
+  R script - keep it small !
+csvFileName C:\Users\hugh\list.txt
+- A csv file of all the work items to be examined.
+outputRoot rgw
+- Root for the log files.
+appKeyFile C:\Users\hugh\rgwapp.key
+- Key file of the applications container storage
+myApplicationName rgwtest
+serviceURL http://rgwtest.cloudapp.net/
+- Give labels and where to inspect progress.

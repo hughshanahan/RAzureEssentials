@@ -1,0 +1,10 @@
+doUpload y
+dataKeyFile C:\Users\hugh\rgwdata.key
+RFileName C:\Users\hugh\exampleScript.R
+userZipFileName C:\Users\hugh\RExtraFiles.zip
+csvFileName C:\Users\hugh\list.txt
+outputRoot rgw
+appKeyFile C:\Users\hugh\rgwapp.key
+myApplicationName rgwtest
+serviceURL http://rgwtest.cloudapp.net/
+
